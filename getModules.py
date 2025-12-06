@@ -8,12 +8,15 @@ from collections import deque
 def discover_recursive(start_path):
     """Discover module file names recursively starting from start_path.
 
-    Returns a list of unique filenames (with .sv suffix) that were printed.
+    Returns a tuple (printed_names, top_module_name) where printed_names is a list
+    of unique filenames (with .sv suffix) that were printed and top_module_name
+    is the name of the top-level module (or None if not found).
     """
     q = deque([start_path])
     visited_files = set()
     printed_names = []
     printed_set = set()
+    top_module = None
 
     while q:
         path = q.popleft()
@@ -32,6 +35,8 @@ def discover_recursive(start_path):
             continue
 
         top = defs[0]
+        if top_module is None:
+            top_module = top.name
         dirn = os.path.dirname(path) or '.'
 
         # Top-level module name (one per file)
@@ -62,14 +67,19 @@ def discover_recursive(start_path):
                         # File not found on disk; skip enqueue but name was still generated
                         print(f"Note: source file for {sub_filename} not found (checked {sub_path})", file=sys.stderr)
 
-    return printed_names
+    return printed_names, top_module
 
 
 if __name__ == '__main__':
-    start = sys.argv[1] if len(sys.argv) > 1 else './rtl/jtag.sv'
-    filenames = discover_recursive(start)
-    # `filenames` contains all unique generated filenames
-    out_path = 'modules_list.txt'
+    if len(sys.argv) <= 1:
+        print("Error: Please specify input file path", file=sys.stderr)
+        sys.exit(1)
+    start = sys.argv[1]
+    filenames, top = discover_recursive(start)
+    if not top:
+        print(f"Error: could not determine top-level module name from {start}", file=sys.stderr)
+        sys.exit(1)
+    out_path = f"{top}.f"
     try:
         with open(out_path, 'w') as f:
             for name in filenames:
