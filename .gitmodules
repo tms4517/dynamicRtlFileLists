@@ -1,0 +1,3 @@
+[submodule "examples/jtag"]
+	path = examples/jtag
+	url = git@github.com:tms4517/Basic-JTAG-Implementation.git
