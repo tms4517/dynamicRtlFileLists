@@ -19,7 +19,13 @@ Dynamically generate file-list (`.f`) files for SystemVerilog projects.
   uses `svinst.get_defs`). See https://github.com/sgherbst/pysvinst.
 
 **Quick start**
-1. From the project root run:
+1. From the project root run (preferred new name):
+
+```
+python3 generateRtlFileList.py <path/to/top.sv>
+```
+
+The old name is still supported as a wrapper for backward compatibility:
 
 ```
 python3 getModules.py <path/to/top.sv>
@@ -34,20 +40,20 @@ python3 getModules.py <path/to/top.sv>
 - Basic:
 
 ```
-python3 getModules.py examples/jtag/rtl/jtag.sv
+python3 generateRtlFileList.py examples/jtag/rtl/jtag.sv
 ```
 
 - Provide include directories (repeat `-I` as needed):
 
 ```
-python3 getModules.py examples/multipleDirs/rtl/top.sv \
+python3 generateRtlFileList.py examples/multipleDirs/rtl/top.sv \
   -I examples/multipleDirs/rtl
 ```
 
 - generate absolute paths in the generated `.f`:
 
 ```
-python3 getModules.py examples/jtag/rtl/jtag.sv --absolute_path
+python3 generateRtlFileList.py examples/jtag/rtl/jtag.sv --absolute_path
 ```
 
 **Behavior details**
@@ -80,6 +86,12 @@ ip2/ip2.sv
   expected.
 
 **Help**
+
+```
+python3 generateRtlFileList.py -h
+```
+
+Or call the compatibility wrapper:
 
 ```
 python3 getModules.py -h
