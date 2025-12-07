@@ -90,9 +90,3 @@ ip2/ip2.sv
 ```
 python3 generateRtlFileList.py -h
 ```
-
-Or call the compatibility wrapper:
-
-```
-python3 getModules.py -h
-```
