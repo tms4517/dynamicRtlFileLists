@@ -12,6 +12,7 @@ Dynamically generate file-list (`.f`) files for SystemVerilog projects.
 - Accepts include paths (`-I`) and searches them recursively for
   submodule files.
 - Optionally generates absolute paths with `--absolute_path`.
+- File list generated includes modules only once to avoid recompilation issues.
 
 **Requirements**
 - Python 3.8+ (or your system `python3`).
