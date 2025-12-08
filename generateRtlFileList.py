@@ -49,7 +49,6 @@ def _resolve_submodule_abs(dirn, sub_filename, includes):
 
     # Not found on disk; return the absolute path where it would be
     chosen_abs = os.path.abspath(os.path.join(dirn, sub_filename))
-    print(f"Note: source file for {sub_filename} not found (checked {candidate_in_parent})", file=sys.stderr)
     return chosen_abs, None
 
 
@@ -69,9 +68,8 @@ def _resolve_submodule_rel(dirn, sub_filename, includes):
     if os.path.exists(sub_filename):
         return os.path.abspath(sub_filename), sub_filename
 
-    # Not found; compute canonical location and warn
+    # Not found; compute canonical location
     chosen_abs = os.path.abspath(os.path.join(dirn, sub_filename))
-    print(f"Note: source file for {sub_filename} not found (checked {sub_path})", file=sys.stderr)
     return chosen_abs, None
 
 
@@ -140,9 +138,18 @@ def discover_recursive(start_path, absolute_path=False, includes=None):
             # print the path (absolute or relative) once per absolute path
             if chosen_abs not in printed_paths_set:
                 printed_paths_set.add(chosen_abs)
-                display_name = _display_name_for(chosen_abs, root_dir, absolute_path)
-                printed_names.append(display_name)
-                print(display_name)
+                # If enqueue_path is None then the file was not located on disk
+                # and we should emit an ERROR line both to terminal and to the
+                # generated .f instead of emitting a path.
+                if enqueue_path is None and not os.path.exists(chosen_abs):
+                    checked_path = os.path.join(dirn, sub_filename)
+                    err_msg = f"ERROR: source file for {sub_filename} not found (checked {checked_path})"
+                    printed_names.append(err_msg)
+                    print(err_msg)
+                else:
+                    display_name = _display_name_for(chosen_abs, root_dir, absolute_path)
+                    printed_names.append(display_name)
+                    print(display_name)
 
     return printed_names, top_module
 
