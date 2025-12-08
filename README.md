@@ -23,21 +23,12 @@ Dynamically generate file-list (`.f`) files for SystemVerilog projects.
 - Currently, the code does not handle incdirs. The example `incTest` demonstrates this.
 
 **Quick start**
-1. From the project root run (preferred new name):
 
 ```
 python3 generateRtlFileList.py <path/to/top.sv>
 ```
 
-The old name is still supported as a wrapper for backward compatibility:
-
-```
-python3 getModules.py <path/to/top.sv>
-```
-
-2. The script writes a file named `<topmodule>.f` in the current
-   directory (where `<topmodule>` is the top-level module name parsed
-   from the input file).
+The script writes a file named `<topmodule>.f` in the current directory (where `<topmodule>` is the top-level module name parsed from the input file).
 
 **Usage examples**
 
@@ -78,16 +69,6 @@ ip2/ip2.sv
   recursively (using `os.walk`) and uses the found file for parsing.
   The printed entry is still relative to the top-level directory
   unless `--absolute_path` is used.
-
-**Output file name**
-- By default the output file is named `<topmodule>.f`.
-
-**Troubleshooting**
-- If parsing fails for a file `getModules.py` prints a warning to
-  `stderr` and continues.
-- If a submodule source file cannot be located the script prints a
-  `Note:` to `stderr` and still generates the path where the file would be
-  expected.
 
 **Help**
 
