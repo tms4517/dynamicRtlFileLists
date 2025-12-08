@@ -18,6 +18,9 @@ Dynamically generate file-list (`.f`) files for SystemVerilog projects.
 - The `svinst` package must be available on `PYTHONPATH` (the script
   uses `svinst.get_defs`). See https://github.com/sgherbst/pysvinst.
 
+**Limitations**
+- Currently, the code does not handle incdirs. The example `incTest` demonstrates this.
+
 **Quick start**
 1. From the project root run (preferred new name):
 
