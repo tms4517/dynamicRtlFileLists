@@ -90,3 +90,7 @@ ip2/ip2.sv
 ```
 python3 generateRtlFileList.py -h
 ```
+
+NOTE
+----
+The code is entirely written using AI!
